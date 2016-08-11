@@ -1,0 +1,125 @@
+<template name="docItem">
+    <div class="container">
+        <div>Current time: {{> date}}</div>
+        <div>Current document: {{> currentDoc}}</div>
+        <div>Author: {{> author}}</div>
+        <div class="row">
+            <div class="col-md-12">
+                {{> editingUsers}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="text-primary">Editor:</h4>
+                <div class="editor">
+                    {{> editor}}
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h4 class="text-primary">Preview:</h4>
+                <div class="panel panel-default previewer">
+                    <div class="panel-body">
+                        {{> viewer}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form">
+            {{> insertCommentForm}}
+        </div>
+        <div class="commentlist">
+            {{> commentList}}
+        </div>
+        
+    </div>
+</template>
+
+<template name="insertCommentForm2">
+    {{> quickForm collection="Comments" id="insertCommentForm" type="method" meteormethod="addComment"}}
+</template>
+
+<template name="insertCommentForm">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-8">
+    {{#autoForm collection="Comments" id="insertCommentForm" type="method" meteormethod="addComment"}}
+    <fieldset>
+        <legend>Comment</legend>
+        {{> afQuickField name='title'}}
+        {{> afQuickField name='body' rows=6 value=""}}
+        {{> afQuickField name='docid' value=docid type="hidden"}}
+        {{> afQuickField name='user' value=getUser type="hidden"}}
+        {{> afQuickField name='createdAt' value=createdAt type="hidden"}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    {{/autoForm}}
+    </div>
+    </div>
+    </div>
+</template>
+
+<template name="commentList">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="page-header">
+                <h1><small class="pull-right">{{commentsCount}} comments</small> Comments </h1>
+            </div>
+            <div class="comments-list">
+                {{#each comments}}
+                <div class="media">
+                    <p class="pull-right"><small>{{createdAt}}</small></p>
+                    
+                    <div class="media-body">
+
+                        <h3 class="media-heading user_name">{{user}}</h3>
+                        <h4 class="media-heading">{{title}}</h4>
+                        {{body}}
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    </div>
+</template>
+
+<template name="author">
+	{{#with document}}
+	<span class="h4">{{owner}}</span> {{/with}}
+</template>
+
+<template name="editor">
+	{{>sharejsCM docid=docid onRender=config id="editor"}}
+</template>
+
+<template name="date">
+	{{current_date}}
+</template>
+
+<template name="editingUsers">
+	Editors: {{#each users}}
+	<span class="label label-primary">{{email}}</span> {{/each}}
+</template>
+
+<template name="currentDoc">
+	{{#with document}}
+	<span class="h4">{{> editableText collection="documents" field="title"}}</span>
+    {{#if canTogglePrivacy}}
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" class="js-toggle-private" checked> Private
+		</label>
+	</div>
+	
+    {{/if}}
+    {{/with}}
+</template>
+
+<template name="viewer">
+	<iframe id="frame" src="" frameborder="0">
+
+	</iframe>
+</template>

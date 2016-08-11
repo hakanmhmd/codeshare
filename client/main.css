@@ -1,0 +1,33 @@
+body { padding-top: 70px;
+padding-bottom: 70px; }
+
+
+.commentlist{
+    margin-top:50px;
+}
+
+.editor {
+    height: 500px;
+}
+.previewer{
+    height: 500px;
+}
+
+iframe{
+    height:500px;
+    width: 100%;
+    margin: -15px 0px 0px -15px;
+}
+
+.user_name{
+    font-size:14px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #ccc;
+}
+
+.title {
+  font-size: 30px;
+}
+
